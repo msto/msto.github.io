@@ -45,6 +45,31 @@ def parse_pubmed_issue(citation):
                       page=citation['Pagination']['MedlinePgn'])
 
 
+def set_title_case(title):
+    title = title.replace(u'\xa0', ' ').rstrip('.')
+    words = title.split()
+
+    cased_title = ''
+    for i, word in enumerate(words):
+        # if word is all caps (i.e. gene name), leave it as such
+        if word.isupper():
+            cased = word
+        # Only capitalize first word
+        elif i == 0:
+            cased = word.capitalize()
+        else:
+            cased = word.lower()
+
+        if i == 0:
+            cased_title += cased
+        elif i == len(words) - 1:
+            cased_title += '\xa0' + cased
+        else:
+            cased_title += ' ' + cased
+
+    return cased_title
+
+
 def format_pubmed_citation(article):
     """
     article : Bio.Entrez.Parser.DictionaryElement
@@ -72,6 +97,7 @@ def format_pubmed_citation(article):
 
     #  title = citation['ArticleTitle'].replace(u'\xa0', ' ').rstrip('.')
     title = citation['ArticleTitle'].rstrip('.')
+    title = set_title_case(title)
     journal = citation['Journal']['ISOAbbreviation'].replace('.', '')
 
     date = parse_pubmed_date(article)
