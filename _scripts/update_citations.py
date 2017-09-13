@@ -53,11 +53,10 @@ def format_pubmed_citation(article):
     # Parse doi
     for data in article['PubmedData']['ArticleIdList']:
         if data.attributes['IdType'] == 'doi':
-            doi = str(data)
-            doi = '<a href="https://doi.org/{0}">{0}</a>'.format(doi)
+            doi = 'DOI: [{0}](https://doi.org/{0})'.format(str(data))
         elif data.attributes['IdType'] == 'pubmed':
-            fmt = '<a href="https://www.ncbi.nlm.nih.gov/pubmed/{0}">{0}</a>'
-            pmid = fmt.format(str(data))
+            pmid = 'PMID: [{0}](https://www.ncbi.nlm.nih.gov/pubmed/{0})'
+            pmid = pmid.format(str(data))
 
     # get article data
     citation = article['MedlineCitation']['Article']
@@ -65,7 +64,7 @@ def format_pubmed_citation(article):
     def _parse_author(author):
         name = author['LastName'] + ' ' + author['Initials']
         if name == "Stone MR":
-            name = "<strong>{0}</strong>".format(name)
+            name = "**{0}**".format(name)
         return name
 
     authors = [_parse_author(author) for author in citation['AuthorList']]
@@ -79,8 +78,9 @@ def format_pubmed_citation(article):
     issue = parse_pubmed_issue(citation)
 
     # note: trailing doublespace necessary for line break in markdown
-    citation = ("{authors}. {title}.<br>  \n"
-                "<em>{journal}</em>. {date};{issue}.<br>  \nPMID: {pmid}. DOI: {doi}.")
+    citation = ("{authors}. {title}.  \n"
+                "_{journal}_. {date};{issue}.  \n"
+                "{pmid}. {doi}.")
     citation = citation.format(**locals())
 
     return citation
@@ -111,8 +111,7 @@ def scrape_pubmed(idlist):
 
 
 def get_year(citation):
-    return citation.split('</em>. ')[1].split()[0]
-    #  return citation.split('\n')[1].split('_. ')[1].split()[0]
+    return citation.split('\n')[1].split('_. ')[1].split()[0]
 
 
 def write_citations(citations, fout):
@@ -121,41 +120,29 @@ def write_citations(citations, fout):
 
     for year, cites in itertools.groupby(citations, get_year):
         fout.write('### {year}\n'.format(year=year))
-        #  fout.write('{{:start="{0}"}}\n'.format(idx))
-        fout.write('<ol start="{0}" reversed>\n'.format(idx))
 
         citelist = []
         for i, cite in enumerate(cites):
-            cite = '<li>{0}</li>\n'.format(cite)
-            #  cite = '<li>{0}</li><br>\n'.format(cite)
+            cite = '{0}\n'.format(cite)
             idx -= 1
             citelist.append(cite)
 
         cites = '\n'.join(citelist)
         fout.write(cites)
-        fout.write('</ol>\n\n')
+        fout.write('\n')
 
 
 def main():
-    #  parser = argparse.ArgumentParser(
-        #  description=__doc__,
-        #  formatter_class=argparse.RawDescriptionHelpFormatter)
-    #  parser.add_argument('pubmed_ids', type=argparse.FileType('r'))
-    #  parser.add_argument('citations', type=argparse.FileType('w'))
-    #  args = parser.parse_args()
-
     PUBMED_LIST = open("_data/pubmed_ids.list")
     pubmed_ids = [p.strip() for p in PUBMED_LIST.readlines()]
 
     # terrible don't do any of this
-    BIORXIV_LIST = open("_data/biorxiv_citations.html")
+    BIORXIV_LIST = open("_data/biorxiv_citations.md")
     biorxiv_citations = []
     for line in BIORXIV_LIST:
-        author_title = line.strip()
-        journal_date = next(BIORXIV_LIST).strip()
-        doi = next(BIORXIV_LIST).strip()
-        citation = '<br>\n'.join([author_title, journal_date, doi])
+        citation = line + next(BIORXIV_LIST) + next(BIORXIV_LIST).strip()
         biorxiv_citations.append(citation)
+
         try:
             next(BIORXIV_LIST)
         except:
