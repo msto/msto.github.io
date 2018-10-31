@@ -3,18 +3,20 @@ layout: page
 title: Publications
 permalink: /publications/
 ---
+### 2018
+Werling DM\*, Brand H\*, An JY\*, **Stone MR**\*, Zhu L\*, Glessner JT, Collins RL, Dong S, Layer RM, Markenscoff-Papadimitriou E, Farrell A, Schwartz GB, Wang HZ, Currall BB, Zhao X, Dea J, Duhn C, Erdman CA, Gilson MC, Yadav R, Handsaker RE, Kashin S, Klei L, Mandell JD, Nowakowski TJ, Liu Y, Pochareddy S, Smith L, Walker MF, Waterman MJ, He X, Kriegstein AR, Rubenstein JL, Sestan N, McCarroll SA, Neale BM, Coon H, Willsey AJ, Buxbaum JD, Daly MJ, State MW, Quinlan AR, Marth GT, Roeder K, Devlin B, Talkowski ME, Sanders SJ. An analytical framework for whole-genome sequence association studies and its implications for autism spectrum disorder.  
+_Nat Genet_. 2018 May;50(5):727-36.
+PMID: [29700473](https://www.ncbi.nlm.nih.gov/pubmed/29700473) DOI: [10.1038/s41588-018-0107-y](https://doi.org/10.1038/s41588-018-0107-y)  
+\*Equally contributing author
+
 ### 2017
-Werling DM\*, Brand H\*, An JY\*, <strong>Stone MR\*</strong>, Glessner JT\*, Zhu L, Collins RL, Dong S, Layer RM, Markenscoff-Papadimitriou E, Farrell A, Schwartz GB, Currall BB, Dea J, Duhn C, Erdman C, Gilson M, Handsaker RE, Kashin S, Klei L, Mandell JD, Nowakowski TJ, Liu Y, Pochareddy S, Smith L, Walker MF, Wang HZ, Waterman MJ, He X, Kriegstein AR, Rubenstein JL, Sestan N, McCarroll SA, Neale BM, Coon H, Willsey AJ, Buxbaum JD, Daly MJ, State MW, Quinlan AR, Marth GT, Roeder K, Devlin B, Talkowski ME, Sanders SJ. Limited contribution of rare, noncoding variation to autism spectrum disorder from sequencing of 2,076 genomes in quartet families.  
-_bioRxiv_. 2017 Apr 13.  
-DOI: [10.1101/127043](https://doi.org/10.1101/127043)
+Collins RL, Brand H, Redin CE, Hanscom C, Antolik C, **Stone MR**, Glessner JT, Mason T, Pregno G, Dorrani N, Mandrile G, Giachino D, Perrin D, Walsh C, Cipicchio M, Costello M, Stortchevoi A, An JY, Currall BB, Seabra CM, Ragavendran A, Margolin L, Martinez-Agosto JA, Lucente D, Levy B, Sanders SJ, Wapner RJ, Quintero-Rivera F, Kloosterman W, Talkowski ME. Defining the diverse spectrum of inversions, complex structural variation, and chromothripsis in the morbid human genome.  
+_Genome Biol_. 2017 Mar 06;18(1):36.  
+PMID: [28260531](https://www.ncbi.nlm.nih.gov/pubmed/28260531). DOI: [10.1186/s13059-017-1158-6](https://doi.org/10.1186/s13059-017-1158-6).
 
 Redin C, Brand H, Collins RL, Kammin T, Mitchell E, Hodge JC, Hanscom C, Pillalamarri V, Seabra CM, Abbott MA, Abdul-Rahman OA, Aberg E, Adley R, Alcaraz-Estrada SL, Alkuraya FS, An Y, Anderson MA, Antolik C, Anyane-Yeboa K, Atkin JF, Bartell T, Bernstein JA, Beyer E, Blumenthal I, Bongers EM, Brilstra EH, Brown CW, Brüggenwirth HT, Callewaert B, Chiang C, Corning K, Cox H, Cuppen E, Currall BB, Cushing T, David D, Deardorff MA, Dheedene A, D'Hooghe M, de Vries BB, Earl DL, Ferguson HL, Fisher H, FitzPatrick DR, Gerrol P, Giachino D, Glessner JT, Gliem T, Grady M, Graham BH, Griffis C, Gripp KW, Gropman AL, Hanson-Kahn A, Harris DJ, Hayden MA, Hill R, Hochstenbach R, Hoffman JD, Hopkin RJ, Hubshman MW, Innes AM, Irons M, Irving M, Jacobsen JC, Janssens S, Jewett T, Johnson JP, Jongmans MC, Kahler SG, Koolen DA, Korzelius J, Kroisel PM, Lacassie Y, Lawless W, Lemyre E, Leppig K, Levin AV, Li H, Li H, Liao EC, Lim C, Lose EJ, Lucente D, Macera MJ, Manavalan P, Mandrile G, Marcelis CL, Margolin L, Mason T, Masser-Frye D, McClellan MW, Mendoza CJ, Menten B, Middelkamp S, Mikami LR, Moe E, Mohammed S, Mononen T, Mortenson ME, Moya G, Nieuwint AW, Ordulu Z, Parkash S, Pauker SP, Pereira S, Perrin D, Phelan K, Aguilar RE, Poddighe PJ, Pregno G, Raskin S, Reis L, Rhead W, Rita D, Renkens I, Roelens F, Ruliera J, Rump P, Schilit SL, Shaheen R, Sparkes R, Spiegel E, Stevens B, **Stone MR**, Tagoe J, Thakuria JV, van Bon BW, van de Kamp J, van Der Burgt I, van Essen T, van Ravenswaaij-Arts CM, van Roosmalen MJ, Vergult S, Volker-Touw CM, Warburton DP, Waterman MJ, Wiley S, Wilson A, Yerena-de Vega MC, Zori RT, Levy B, Brunner HG, de Leeuw N, Kloosterman WP, Thorland EC, Morton CC, Gusella JF, Talkowski ME. The genomic landscape of balanced cytogenetic abnormalities associated with human congenital anomalies.  
 _Nat Genet_. 2017 Jan;49(1):36-45.  
 PMID: [27841880](https://www.ncbi.nlm.nih.gov/pubmed/27841880). DOI: [10.1038/ng.3720](https://doi.org/10.1038/ng.3720).
-
-Collins RL, Brand H, Redin CE, Hanscom C, Antolik C, **Stone MR**, Glessner JT, Mason T, Pregno G, Dorrani N, Mandrile G, Giachino D, Perrin D, Walsh C, Cipicchio M, Costello M, Stortchevoi A, An JY, Currall BB, Seabra CM, Ragavendran A, Margolin L, Martinez-Agosto JA, Lucente D, Levy B, Sanders SJ, Wapner RJ, Quintero-Rivera F, Kloosterman W, Talkowski ME. Defining the diverse spectrum of inversions, complex structural variation, and chromothripsis in the morbid human genome.  
-_Genome Biol_. 2017 Mar 06;18(1):36.  
-PMID: [28260531](https://www.ncbi.nlm.nih.gov/pubmed/28260531). DOI: [10.1186/s13059-017-1158-6](https://doi.org/10.1186/s13059-017-1158-6).
 
 ### 2016
 Collins RL, <strong>Stone MR</strong>, Brand H, Glessner JT, Talkowski ME. CNView: a visualization and annotation tool for copy number variation from whole-genome sequencing.  
