@@ -28,6 +28,16 @@ theme: minima
 plugins:
   - jekyll-feed
 
+collections:
+  classes:
+    output: true
+    permalink: /notes/:slug
+  semesters:
+    output: false
+  ece532:
+    output: true
+    permalink: /notes/ece532/:slug
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
