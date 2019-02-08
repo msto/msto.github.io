@@ -2,7 +2,6 @@
 layout: lecture
 title: Ordinary least squares regression
 lecture: 1
-course: ECE 532
 date: 2019-01-22
 ---
 # Course logistics and overview
