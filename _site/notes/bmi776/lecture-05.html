@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Lecture 05 | Matthew Stone</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Lecture 05" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Summary" />
+<meta property="og:description" content="Summary" />
+<link rel="canonical" href="http://localhost:4002/notes/bmi776/lecture-05" />
+<meta property="og:url" content="http://localhost:4002/notes/bmi776/lecture-05" />
+<meta property="og:site_name" content="Matthew Stone" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-02-05T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Summary","@type":"BlogPosting","url":"http://localhost:4002/notes/bmi776/lecture-05","headline":"Lecture 05","dateModified":"2019-02-05T00:00:00-06:00","datePublished":"2019-02-05T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4002/notes/bmi776/lecture-05"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4002/feed.xml" title="Matthew Stone" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Matthew Stone</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/notes/">Lecture notes</a><a class="page-link" href="/publications/">Publications</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Lecture 05</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-02-05T00:00:00-06:00" itemprop="datePublished">Feb 5, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="summary">Summary</h2>
+
+<p>Today in class we reviewed and finished our discussion of Gibbs sampling, and introduced Dirichlet priors.</p>
+
+<script type="math/tex; mode=display">%% Latex helpers
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\card}[1]{\left\vert{#1}\right\vert}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\L}{\mathcal{L}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\bigdot}{\boldsymbol{\cdot}}</script>
+
+<h2 id="announcements">Announcements</h2>
+
+<ul>
+  <li>Read Elemento et al (FIRE)</li>
+  <li>Read Durbin 11.2</li>
+  <li>Homework 0 is due Friday</li>
+</ul>
+
+<h2 id="recap-gibbs-sampling">Recap: Gibbs Sampling</h2>
+
+<p>The basic idea is to draw samples from or find the mode of some distribution
+<script type="math/tex">p(x)</script>. Gibbs sampling permits us to do so, even if <script type="math/tex">p(x)</script> is untractable.</p>
+
+<p>The key is to define <script type="math/tex">p(x)</script>. In our setting, the motif finding problem, it is
+some distribution over the hidden motif starts. From the derivation in our last
+lecture, we showed that the probability of being in a state <script type="math/tex">u</script> is as
+follows:</p>
+
+<script type="math/tex; mode=display">P(u) \propto \prod\limits_c \prod \limits_{j=1}^W \left( \frac{p_{c, j}}{p_{c, 0}} \right)^{n_{c, j}(u)}</script>
+
+<p>where <script type="math/tex">n_{c, j}(u)</script> is the count of <script type="math/tex">c</script> at motif position <script type="math/tex">j</script> across all
+sequences in our current model <script type="math/tex">u</script>.</p>
+
+<p>This is what’s known as a <em>collapsed</em> Gibbs sampler. Really, we could define a
+distribution over our hidden motif positions <script type="math/tex">A</script>, our sequences <script type="math/tex">X</script>, and
+our parameters <script type="math/tex">p</script>, <script type="math/tex">P(A, X, p)</script>, but we’re choosing to sample over only
+our hidden variables and integrate out the other parameters.</p>
+
+<h1 id="transition-probabilities">Transition probabilities</h1>
+
+<p>We’ve constrained the possible transitions between our states to be those that
+only change the motif start position in a single sequence, say <script type="math/tex">i</script>.</p>
+
+<p>To sample a new start position for sequence <script type="math/tex">i</script>, we can describe the
+following strategy:</p>
+
+<ol>
+  <li>Estimate <script type="math/tex">p</script> from all sequences except <script type="math/tex">i</script></li>
+  <li>Construct a probability distribution from the likelihood ratios for all possible start positions <script type="math/tex">j</script>:
+<script type="math/tex">\mathrm{LR}(j) = \frac{\prod\limits_{k=j}^{j+W-1} p_{c_k, k-j+1}}{\prod\limits_{k=j}^{j+W-1} p_{c_k, 0}}</script></li>
+  <li>Select a new position <script type="math/tex">A_i = j</script> with probability <script type="math/tex">\frac{\mathrm{LR}(j)}{\sum\limits_{k \in \mathrm{start pos}} \mathrm{LR}(k)}</script></li>
+</ol>
+
+<h1 id="gibbs-summary">Gibbs summary</h1>
+
+<p>So our algorithm for Gibbs sampling looks as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Initialize some random A
+Until convergence:
+    Pick some sequence X_i
+    Estimate p with the current state of A from X, excluding X_i
+    Sample a new start position A_i
+</code></pre></div></div>
+
+<p>Note that Gibbs sampling can get stuck in local maxima, often the correct motif
+shifted by 1 or 2 bases. This is called the <em>phase shift problem</em>. It can occur
+because when we sample a new start position, the probabilities over the
+possible motif start locations are constrained by the motif model defined by
+the other sequences. So if our model is shifted by one or two bases, the maxmum
+likelihood position for our sequence will likely be shifted by the same amount.
+Typically, we solve this by running Gibbs multiple times and choosing the best
+results.</p>
+
+<h2 id="using-background-information-to-suggest-what-our-model-should-look-like">Using background information to suggest what our model should look like</h2>
+
+<h1 id="parameter-tying">Parameter tying</h1>
+
+<p>Many motifs are palindromic, because they are bound by a homodimer where each
+constituent protein binds the same pattern (except with one side in reverse).
+How can we “force” our model to prefer palindromic motifs? One strategy is
+parameter tying, where we constrain two parameters to be equal, e.g. the
+probability of observing <script type="math/tex">A</script> in our first position is constrained to be equal
+to that of <script type="math/tex">T</script> in the last position, <script type="math/tex">p_{A, 1} = p_{T, W}</script>. If we’re not
+certain if our motif is palindromic, we can run EM or Gibbs sampling with and
+without parameter tying, and then use a likelihood ratio test to determine if
+tying the parameters significantly improved over the null assumption.</p>
+
+<h1 id="priors">Priors</h1>
+
+<p>Our knowledge of protein structure and amino acid characteristics can inform
+our background expectations of amino acid frequencies.</p>
+
+<p>Recall the MEME and Gibbs update formula</p>
+
+<script type="math/tex; mode=display">p_{c, k} = \frac{n_{c, k} + d_{c,k}}{\sum\limits_{b} u_{b, k} + d_{b, k}}</script>
+
+<p>where <script type="math/tex">d_{b, k}</script> was some pseudocount. How can we intelligently choose these
+pseudocounts based on our background knowledge? We want to encode information
+about the chemical properties of amino acids and the fact that the fall into
+classes into some priors that can generate informed pseudocounts.</p>
+
+<h1 id="dirichlet-mixture-priors">Dirichlet mixture priors</h1>
+
+<p>We want a prior over the character frequencies, and we want a prior for each
+column of the motif model, which is a multinomial distribution. We will show
+that the proper and mathematically convenient choice for this prior is the
+Dirichlet distribution (and in the next lecture we will explore mixtures of
+Dirichlets).</p>
+
+<h1 id="beta-distribution">Beta distribution</h1>
+<p>For now, let’s begin with exploring the Beta distribution. Let’s say we’d like
+to estimate the parameter <script type="math/tex">\theta</script> of a weighted coin:</p>
+
+<script type="math/tex; mode=display">P(\theta) = \frac{\Gamma(\alpha_H + \alpha_T)}{\Gamma(\alpha_H) \Gamma(\alpha_T)} \theta^{\alpha_H -1} (1 - \theta)^{\alpha_T - 1}</script>
+
+<p>Where the gamma function <script type="math/tex">\Gamma$ is an generalization of the factorial
+function, and</script>\alpha_H<script type="math/tex">and</script>\alpha_T$$ are the imagined number of heads
+and tails we’ve already seen (our prior belief).</p>
+
+<p>Why? This is convenient with data generated from a binomial distribution (or
+from Bernoulli trials). Suppose we have a set of <script type="math/tex">D</script> observations with
+<script type="math/tex">D_H</script> heads and <script type="math/tex">D_T</script> tails. Then the posterior distribution has the same
+form as the Beta distribution.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+P(\theta \mid D) &= \frac{\Gamma(\alpha_H + D_H + \alpha_T + D_T)}{\Gamma(\alpha_H + D_H) \Gamma(\alpha_T + D_T)} \theta^{\alpha_H + D_H - 1} (1 - \theta)^{\alpha_T + D_T - 1} \\
+        &= \mathrm{Beta}(\alpha_H + D_H, \alpha_T + D_T)
+\end{align*} %]]></script>
+
+<p>Since the posterior distribution is also a Beta distribution, we call Beta
+distributions a conjugate family for the binomial distribution.</p>
+
+<h1 id="dirichlet-distribution">Dirichlet distribution</h1>
+
+<p>What if we need to encode over more than 2 outcomes? For example, over all
+characters in alphabet? The Dirichlet distribution is a generalization of the
+Beta distribution to more than 2 outcomes, and Dirichlet distributions are a
+conjugate family for multinomial priors.</p>
+
+<script type="math/tex; mode=display">P(\theta) = \frac{\Gamma(\sum \alpha_i)}{\prod \Gamma(\alpha_i)} \prod \theta_i^{\alpha_i - 1}</script>
+
+<p>(Note that our parameters are constrained so <script type="math/tex">\sum \theta_i = 1</script>).</p>
+
+<p>Since the Dirichlet distribution is conjugated, if <script type="math/tex">P(\theta) \sim
+\mathcal{D}(\alpha_1, \cdots, \alpha_k)</script>, then <script type="math/tex">P(\theta \mid D) \sim
+\mathcal{D}(\alpha_1 + D_1, \cdots, \alpha_k + D_k)</script>.</p>
+
+
+  </div><a class="u-url" href="/notes/bmi776/lecture-05" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Matthew Stone</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Matthew Stone</li><li><a class="u-email" href="mailto:"></a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/msto"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">msto</span></a></li><li><a href="https://www.twitter.com/m_sto"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">m_sto</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Under construction
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
