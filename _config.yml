@@ -32,11 +32,14 @@ collections:
   classes:
     output: true
     permalink: /notes/:slug
-  semesters:
-    output: false
+  # semesters:
+    # output: false
   ece532:
     output: true
     permalink: /notes/ece532/:slug
+
+semesters:
+  - Spring 2019
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
