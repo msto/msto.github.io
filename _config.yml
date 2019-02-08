@@ -37,6 +37,9 @@ collections:
   ece532:
     output: true
     permalink: /notes/ece532/:slug
+  bmi776:
+    output: true
+    permalink: /notes/bmi776/:slug
 
 semesters:
   - Spring 2019
