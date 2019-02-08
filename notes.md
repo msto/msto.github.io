@@ -12,7 +12,7 @@ Notes from classes I've taken.
 # {{semester}}
 {% for class in site.classes %}
 {% if class.semester == semester %}
-  [{{class.course}}]({{ site.baseurl }}{{ class.url }})
+  [{{class.title}}]({{ site.baseurl }}{{ class.url }})
 {% endif %}
 {% endfor %}
 {% endfor %}
