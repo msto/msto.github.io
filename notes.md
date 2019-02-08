@@ -5,6 +5,11 @@ permalink: /notes/
 ---
 
 {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+{% for semester in site.semesters %}
+# {{semester}}
 {% for class in site.classes %}
-  [{{class.title}}]({{ site.baseurl }}{{ class.url }})
+{% if class.semester == semester %}
+  [{{class.course}}]({{ site.baseurl }}{{ class.url }})
+{% endif %}
+{% endfor %}
 {% endfor %}
