@@ -1,9 +1,8 @@
 ---
 layout: post
 title: Lecture 05
+course: BMI 776
 date: 2019-02-05
-header-includes:
-  - \usepackage{algorithm2e}
 ---
 
 ## Summary

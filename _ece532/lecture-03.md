@@ -2,6 +2,7 @@
 layout: lecture
 title: Confidence intervals
 lecture: 3
+course: ECE 532
 date: 2019-01-29
 ---
 

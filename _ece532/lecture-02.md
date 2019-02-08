@@ -2,6 +2,7 @@
 layout: lecture
 title: Algebraic, geometric, and probabilistic views of OLS
 lecture: 2
+course: ECE 532
 date: 2019-01-24
 ---
 # Administrative notes

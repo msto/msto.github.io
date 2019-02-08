@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Lecture 02
+course: BMI 776
 date: 2019-01-24
 ---
 
