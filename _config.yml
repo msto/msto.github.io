@@ -28,6 +28,22 @@ theme: minima
 plugins:
   - jekyll-feed
 
+collections:
+  classes:
+    output: true
+    permalink: /notes/:slug
+  # semesters:
+    # output: false
+  ece532:
+    output: true
+    permalink: /notes/ece532/:slug
+  bmi776:
+    output: true
+    permalink: /notes/bmi776/:slug
+
+semesters:
+  - Spring 2019
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

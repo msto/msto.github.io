@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Ridge and Lasso Regression | Matthew Stone</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Ridge and Lasso Regression" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Administrative notes" />
+<meta property="og:description" content="Administrative notes" />
+<link rel="canonical" href="http://localhost:4002/notes/ece532/lecture-04" />
+<meta property="og:url" content="http://localhost:4002/notes/ece532/lecture-04" />
+<meta property="og:site_name" content="Matthew Stone" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-01-31T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Administrative notes","@type":"BlogPosting","url":"http://localhost:4002/notes/ece532/lecture-04","headline":"Ridge and Lasso Regression","dateModified":"2019-01-31T00:00:00-06:00","datePublished":"2019-01-31T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4002/notes/ece532/lecture-04"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4002/feed.xml" title="Matthew Stone" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Matthew Stone</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/notes/">Lecture notes</a><a class="page-link" href="/publications/">Publications</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Ridge and Lasso Regression</h1>
+    <p class="post-meta">
+    , Lecture 4 &mdash;
+      <time class="dt-published" datetime="2019-01-31T00:00:00-06:00" itemprop="datePublished">Jan 31, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="administrative-notes">Administrative notes</h1>
+
+<ul>
+  <li>Muni has a regular location for office hours - Engineering Hall 2355 on
+Fridays from 3:30-5:30pm</li>
+  <li>No class next Tuesday (Feb 5)</li>
+  <li>Next week Professor Loh will have office hours after class on Thursday (Feb
+7) instead of Tuesday due to travel</li>
+</ul>
+
+<h1 id="summary">Summary</h1>
+
+<p>Today in class we continued our discussion of what to do when the matrix
+<script type="math/tex">X'X</script> is not invertible and showed two variants of OLS - ridge and lasso
+regresion.</p>
+
+<script type="math/tex; mode=display">%% Latex helpers
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\card}[1]{\left\vert{#1}\right\vert}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\L}{\mathcal{L}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Col}{\mathrm{Col}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\bigdot}{\boldsymbol{\cdot}}</script>
+
+<h1 id="recap-cases-where-xx-is-not-invertible">Recap: Cases where <script type="math/tex">X'X</script> is not invertible</h1>
+
+<p>Remember that when <script type="math/tex">X'X</script> is not invertible, the OLS formula
+<script type="math/tex">\hat{\beta}_{OLS} = (X'X)^{-1} X'y</script> can’t be computed.</p>
+
+<p>On example is when the columns of <script type="math/tex">X</script> are not linearly independent. In the
+last class, we looked at a special case of this. When <script type="math/tex">X \in \R^{n \times p}</script>
+is wide, i.e. <script type="math/tex">p > n</script>, the columns can’t be linearly independent because they
+are a set of more than <script type="math/tex">n</script> columns in <script type="math/tex">n</script>-dimensional space. In the
+homework you will see another example of a <script type="math/tex">3 \times 3</script> matrix where <script type="math/tex">X'X</script>
+isn’t invertible.</p>
+
+<p>We suggested one possible fix for this problem in the last lecture: add a matrix <script type="math/tex">\lambda I</script> to <script type="math/tex">X'X</script>, i.e.</p>
+
+<script type="math/tex; mode=display">\hat{\beta}_{ridge} = (X'X + \lambda I)^{-1} X'y</script>
+
+<p>for some <script type="math/tex">\lambda > 0</script>. We called this solution <em>ridge regression</em>.</p>
+
+<h2 id="why-does-ridge-regression-fix-the-problem">Why does ridge regression fix the problem?</h2>
+
+<p>We rely on the fact that <script type="math/tex">(X'X + \lambda I)</script> is always invertible if
+<script type="math/tex">\lambda > 0</script>. We will show this in more detail later in the term when we
+discuss singular values, but for now we can show it with eigenvalues.</p>
+
+<p>Recall that a square matrix <script type="math/tex">X \in \R^{n \times n}</script> is invertible if all its
+eigenvalues are nonzero. Also, note that <script type="math/tex">X'X</script> only has eigenvalues <script type="math/tex">\ge
+0</script>. Why? Because <script type="math/tex">X'X</script> is a positive semi-definite matrix. We will explore
+this definition more later, but for now, know that any positive semi-definite
+matrix <script type="math/tex">A</script> has the following property for all vectors <script type="math/tex">v</script>:</p>
+
+<script type="math/tex; mode=display">v' A v \ge 0</script>
+
+<p>We can prove that <script type="math/tex">X'X</script> has this positive semi-definite property:</p>
+
+<script type="math/tex; mode=display">v' (X'X) v = (Xv)' Xv = w'w \ge 0</script>
+
+<p>since the inner product <script type="math/tex">w'w</script> is the sum of squares <script type="math/tex">\sum w_i^2</script> and
+therefore cannot be negative. <script type="math/tex">X'X</script> is therefore positive semi-definite, and
+so all its eigenvalues are non-negative (take this consequence on faith for
+now).</p>
+
+<p>So why are the eigenvalues of <script type="math/tex">X'X + \lambda I > 0</script>? Intuitively, the
+addition of <script type="math/tex">\lambda I</script> is taking all the eigenvalues of <script type="math/tex">X'X</script> and “pushing
+them up a little”. Note that the eigenvalues of <script type="math/tex">X'X + \lambda I</script> are related
+to the eigenvalues of <script type="math/tex">X'X</script>. If a vector <script type="math/tex">v</script> is an eigenvector of <script type="math/tex">X'X</script>
+with eigenvalue <script type="math/tex">\alpha</script>, then <script type="math/tex">X'Xv = \alpha v</script>. This vector remains an
+eigenvector of <script type="math/tex">X'X + \lambda I</script>, as we can show:</p>
+
+<script type="math/tex; mode=display">(X'X + \lambda I) v = X'X v + \lambda Iv =  \alpha v + \lambda v = (\alpha + \lambda) v</script>
+
+<p>So any eigenvector <script type="math/tex">v</script> of <script type="math/tex">X'X</script> is an eigenvector of <script type="math/tex">X'X + \lambda I</script>
+with eigenvalue <script type="math/tex">\alpha + \lambda</script>. Since <script type="math/tex">X'X</script> is positive semi-definite,
+<script type="math/tex">\alpha \ge 0</script>, so the minimum eigenvalue of <script type="math/tex">X'X + \lambda I</script> is
+<script type="math/tex">\lambda</script>, which we have defined to be greater than 0. Therefore <script type="math/tex">X'X +
+\lambda I</script> only has positive eigenvalues and is invertible.</p>
+
+<p>So ridge regression is actually a fix for the non-invertible problem that makes
+sense for all <script type="math/tex">\lambda > 0</script>.</p>
+
+<h2 id="ridge-regression-as-optimization">Ridge regression as optimization</h2>
+
+<p>Another way of viewing <script type="math/tex">\hat{\beta}_{ridge}</script> is as the solution to</p>
+
+<script type="math/tex; mode=display">\min\limits_{\beta} \{ \norm{y - X\beta}_2^2 + \lambda \norm{\beta}_2^2 \}</script>
+
+<p>Why? Let’s take the gradient and set <script type="math/tex">\nabla_{\beta} f = 0</script> and solve:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\nabla_{\beta} f &= \nabla_{\beta} \norm{y - X\beta}_2^2 + \lambda \norm{\beta}_2^2 \\
+                 &= \nabla_{\beta} \left( (y - X\beta)'(y - X\beta) + \lambda \beta' \beta \right) \\
+                 &= \nabla_{\beta} (y'y - 2y'X\beta + \beta'X'X\beta + \lambda \beta'\beta) \\
+                 &= \nabla_{\beta} (-2y'X\beta + \beta' (X'X + \lambda I) \beta) && \beta'\beta = \beta'I\beta \\
+                 &= -2X'y + 2(X'X + \lambda I) \beta
+\end{align*} %]]></script>
+
+<p>Setting to zero, we have</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+-2X'y + 2(X'X + \lambda I) \beta &= 0 \\
+(X'X + \lambda I) \beta &= X'y \\
+\beta &= (X'X + \lambda I)^{-1} X'y
+\end{align*} %]]></script>
+
+<p>which is our ridge regression estimator <script type="math/tex">\hat{\beta}_{ridge}</script>. Therefore we have shown</p>
+
+<script type="math/tex; mode=display">\hat{\beta}_{ridge} = \argmin\limits_{\beta} \left \{ \norm{y - X\beta}_2^2 + \lambda \norm{\beta}_2^2 \right \}</script>
+
+<p>We call the 2-norm of <script type="math/tex">\beta</script> the <em>ridge regularization term</em> or the <em>ridge
+penalty</em>. It encourages structure in our solution.</p>
+
+<h2 id="regularization">Regularization</h2>
+
+<p>The idea of regularization is that we are minimizing the quantity</p>
+
+<script type="math/tex; mode=display">\text{(loss)} + \lambda \cdot \text{(penalty)}</script>
+
+<p>where <script type="math/tex">\lambda</script> is a regularization parameter. In regularization, we want to
+keep the loss small, but we also want to keep the penalty small. The
+regularization parameter controls the trade-off between a small loss and a
+small penalty.</p>
+
+<p>In ridge regression, the penalty is <script type="math/tex">\norm{\beta}_2^2</script>, which encourages
+small regression vectors. We use it to pick the “best” option when OLS has
+multiple solutions.</p>
+
+<p>As <script type="math/tex">\lambda</script> approaches <script type="math/tex">\infty</script>, we mostly care about minimizing the
+penalty, so <script type="math/tex">\hat{\beta}_{ridge} \to 0</script>. So we sometimes call this a
+“shrinkage method”. In the homework you’ll explore the effects of different
+sizes of <script type="math/tex">\lambda</script>.</p>
+
+<h2 id="probabilistic-interpretation-of-ridge-regression">Probabilistic interpretation of ridge regression</h2>
+
+<p>We previously defined a generative model of linear regression:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+y_i = X_i' \beta + \varepsilon_i && \varepsilon_i \sim N(0, \sigma^2)
+\end{align*} %]]></script>
+
+<p>Now we can also assume randomness in <script type="math/tex">\beta</script>, which we can think of as
+modeling in extra noise.</p>
+
+<p>If we want to calculate the maximum likelihood estimate (MLE) for <script type="math/tex">\beta</script>, we
+need to introduce a probability density function for <script type="math/tex">\beta</script></p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\L_{\beta}(X, y) &= p(\beta) \cdot P_{\beta}(X, y) \\
+                 &= p(\beta) \prod\limits_{i} \frac{1}{\sqrt{2\pi}\sigma} \exp \left(\frac{-(y_i - X_i'\beta)^2}{2\sigma^2}\right) && \text{Gaussian assumption} \\
+                 &= p(\beta) \prod\limits_{i} \frac{1}{\sqrt{2\pi}} \exp \left(\frac{-1}{2}(y_i - X_i'\beta)^2\right) && \text{Assume $\sigma=1$ for simplicity}\\
+                 &= p(\beta) \left(\frac{1}{\sqrt{2\pi}}\right)^n \exp \left(\frac{-1}{2}\sum\limits_{i}(y_i - X_i'\beta)^2\right) \\
+                 &= \left(\frac{1}{\sqrt{2\pi}}\right)^n \exp \left(\frac{-1}{2}\sum\limits_{i}(y_i - X_i'\beta)^2 + \log p(\beta)\right) \\
+\end{align*} %]]></script>
+
+<p>We want to maximize this likelihood with respect to <script type="math/tex">\beta</script>. Since <script type="math/tex">(1 / \sqrt{2\pi})^n</script> is fixed with respect to <script type="math/tex">\beta</script>, we only need to maximize the exponential function, which is equivalent to minimizing the negation of the exponent</p>
+
+<script type="math/tex; mode=display">\frac{1}{2} \sum (y_i - X_i' \beta)^2 - \log p(\beta)</script>
+
+<p>which is equivalent to minimizing</p>
+
+<script type="math/tex; mode=display">\norm{y - X\beta}_2^2 - 2 \log p(\beta)</script>
+
+<p>Now we want to relate this problem to ridge regression. If <script type="math/tex">\beta</script> has some
+distribution, we want to reverse engineer it and show that the MLE is the same
+as ridge regression, that is,</p>
+
+<script type="math/tex; mode=display">- \log p(\beta) \approx \lambda \norm{\beta}_2^2</script>
+
+<p>Suppose <script type="math/tex">\beta \sim N(0, \frac{1}{lambda} I)</script>. Then the pdf of <script type="math/tex">\beta</script> is</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+p(\beta) &= \frac{1}{\sqrt{\det(2\pi\Sigma)}} \exp\left(\frac{-1}{2}(\beta - \mu)' \Sigma^{-1} (\beta - \mu) \right) \\
+         &= c \cdot \exp \left(\frac{-1}{2} \beta'(\lambda I) \beta\right) && c = \frac{1}{\sqrt{\det(2\pi\Sigma)}}\\
+         &= c \cdot \exp \left(\frac{-\lambda}{2} \beta'\beta\right) \\
+         &= c \cdot \exp \left(\frac{-\lambda}{2} \norm{\beta}_2^2\right) \\
+\end{align*} %]]></script>
+
+<p>and the problem of optimizing our likelihood function becomes</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*}
+\max\limits_{\beta} L_{\beta}(X, y) &= \min\limits_{\beta} \norm{y - X\beta}_2^2 - 2 \log p(\beta) \\
+        &= \min\limits_{\beta} \norm{y - X\beta}_2^2 - 2 \log \left[ \log c - \frac{\lambda}{2} \norm{\beta}_2^2 \right] \\
+        &= \min\limits_{\beta} \norm{y - X\beta}_2^2 + \lambda \norm{\beta}_2^2  \\
+\end{align*} %]]></script>
+
+<p>Therefore, ridge regression with parameter <script type="math/tex">\lambda</script> is the same as the MLE for the generative model</p>
+
+<script type="math/tex; mode=display">y_i = X_i' \beta + \varepsilon_i</script>
+
+<p>where <script type="math/tex">\varepsilon_i \sim N(0, \sigma^2)</script> and <script type="math/tex">\beta \sim N(0,
+\frac{1}{\lambda}I)</script>.</p>
+
+<p>The generative model allows us to model uncertainty in <script type="math/tex">\beta</script>. An important
+note is that the prior is centered around <script type="math/tex">0</script>, which encourages a smaller
+<script type="math/tex">\beta</script>. Different values of <script type="math/tex">\lambda</script> quantify our uncertainty. Larger
+<script type="math/tex">\lambda</script> mean our covariance matrix <script type="math/tex">\Sigma \approx 0</script>, so <script type="math/tex">\beta</script> is
+very close to 0. Note that these are the same conclusions we reached from our
+algebraic model of <script type="math/tex">\hat{\beta}_{ridge}</script>.</p>
+
+<p>One potential issue we can see is that we don’t know how to choose <script type="math/tex">\lambda</script>.
+We will discuss this in the next lecture, but the answer is by using
+cross-validation.</p>
+
+<h2 id="lasso-regression">Lasso regression</h2>
+
+<p>Lasso regression uses another regularizer, or penalty.</p>
+
+<script type="math/tex; mode=display">\hat{\beta}_{Lasso} = \argmin\limits_{\beta} \left\{ \norm{y - X\beta}_2^2 + \lambda \norm{\beta}_1 \right\}</script>
+
+<p>where <script type="math/tex">\norm{\beta}_1</script> is the L1 norm of <script type="math/tex">\beta</script>, <script type="math/tex">\sum \card{\beta_j}</script>.</p>
+
+<p>It turns out that the solutions to Lasso regression tend to be sparse (many
+zero entries in <script type="math/tex">\hat{\beta}</script>).  We can demonstrate this empirically, and in
+homework 2 we will see that as <script type="math/tex">\lambda</script> increases, the number of zero
+entries in <script type="math/tex">\hat{\beta}</script> increases. This yields a more interpretable
+solution, as the remaining nonzero weights in <script type="math/tex">\hat{\beta}</script> correspond to the
+relative importance of the predictor variables <script type="math/tex">X_i</script>, while ridge regression
+makes <script type="math/tex">\hat{\beta}</script> uniformly smaller.</p>
+
+<p>Why does the L1 penalty make things sparse? There are many ways to answer this.
+The motivation in the original paper by Tibshirani (1996) observed that in
+order to make the coefficients of the regression vector small, we should solve
+the following:</p>
+
+<script type="math/tex; mode=display">\min\limits_{\beta} \left\{ \norm{y-X\beta}_2^2 + \lambda \cdot ( \text{# nonzero entries in $\beta$}) \right\}</script>
+
+<p>so our penalty counts the number of nonzero coefficients.</p>
+
+<p>The issue is that this formulation is very hard to solve because it is not
+convex. (We won’t be discussing convexity in detail in this class, so just note
+that convex functions are easier to solve with methods such as gradient
+descent.) We can restrict to <script type="math/tex">\beta</script> with a fixed number of non-zero
+coefficients and exhaustively solve over all such constraints, but this is an
+expensive solution. Fortunately, Lasso is convex!</p>
+
+<p>We can compare the different penalty functions, like so:</p>
+
+<ol>
+  <li>Ridge: <script type="math/tex">\norm{\beta}_2^2 = \sum \beta_j^2</script>, penalty function <script type="math/tex">f(x) = x^2</script></li>
+  <li>Lasso: <script type="math/tex">\norm{\beta}_1 = \sum \card{\beta_j}</script>, penalty function <script type="math/tex">f(x) = \card{x}</script></li>
+  <li># nonzero: <script type="math/tex">\norm{\beta}_0 = \sum f(\beta_j)</script>, where the penalty function
+<script type="math/tex">f(x) = 0</script> if <script type="math/tex">x=0</script> and <script type="math/tex">1</script> otherwise.</li>
+</ol>
+
+<p>A simplified intuition for what it means for a function to be convex is that
+if we connect any two points in the function, the connecting line is always on
+or above the function. Note that this is the case for the L1 and L2 norms (the
+parabola of a quadratic function and the “V” of the absolute value are both
+convex), but if we connect 0 with any other point on the L0 norm, the
+connecting line falls below the <script type="math/tex">f(x)=1</script> line.</p>
+
+<p>The motivation for Lasso is to use the L1 norm as an approximation for the L0
+norm we are interested in. Simplifying some complex math, the L1 norm is the
+closest convex norm to the L0 norm.</p>
+
+<p>Finally, we note that even though Lasso is convex, so we can find
+<script type="math/tex">\hat{\beta}_{Lasso}</script> efficiently, there is no closed form solution. This is
+in contrast to the formulas we derived for <script type="math/tex">\hat{\beta}_{OLS}</script> and
+<script type="math/tex">\hat{\beta}_{ridge}</script>. We instead solve it with algorithms such as gradient
+descent using computer packages such as <code class="highlighter-rouge">cvx</code> or <code class="highlighter-rouge">LASSO</code> in matlab.</p>
+
+<p>In the next lecture we will discuss the probabilistic interpretation of Lasso
+regression.</p>
+
+
+  </div><a class="u-url" href="/notes/ece532/lecture-04" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Matthew Stone</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Matthew Stone</li><li><a class="u-email" href="mailto:"></a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/msto"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">msto</span></a></li><li><a href="https://www.twitter.com/m_sto"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">m_sto</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Under construction
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
