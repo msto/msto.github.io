@@ -3,7 +3,7 @@ layout: lecture
 title: Lasso (probabilistic view) and cross-validation
 lecture: 5
 course: ECE 532
-date: 2019-01-31
+date: 2019-02-07
 ---
 
 # Administrative notes
