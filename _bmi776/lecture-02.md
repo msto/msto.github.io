@@ -1,6 +1,7 @@
 ---
-layout: post
-title: Lecture 02
+layout: lecture
+title: Motif finding and expectation-maximization
+lecture: 2
 course: BMI 776
 date: 2019-01-24
 ---

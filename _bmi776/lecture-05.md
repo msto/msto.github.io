@@ -1,6 +1,7 @@
 ---
-layout: post
-title: Lecture 05
+layout: lecture
+title: Gibbs sampling (transition probabilities) and Dirichlet priors
+lecture: 5
 course: BMI 776
 date: 2019-02-05
 ---
@@ -163,5 +164,15 @@ $$
 Since the Dirichlet distribution is conjugated, if $$P(\theta) \sim
 \mathcal{D}(\alpha_1, \cdots, \alpha_k)$$, then $$P(\theta \mid D) \sim
 \mathcal{D}(\alpha_1 + D_1, \cdots, \alpha_k + D_k)$$.
+
+Geometrically, we can think of the Dirichlet distribution as defining a density
+over the simplex where $$\sum D_i = 1$$.
+
+# Mixture of Dirichlets
+
+We want to put a Dirichlet prior on each column of our motif model, as we'd
+like to encode the functional characteristics of different subsets of amino
+acids. The selection for column corresponds to 1 of the different subsets, so
+we'd like to separate our columns into classes.
 
 

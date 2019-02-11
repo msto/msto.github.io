@@ -1,6 +1,7 @@
 ---
-layout: post
-title: Lecture 04
+layout: lecture
+title: Gibbs sampling (stationary distribution and state probabilities)
+lecture: 4
 course: BMI 776
 date: 2019-01-31
 ---
