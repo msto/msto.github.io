@@ -29,17 +29,17 @@ plugins:
   - jekyll-feed
 
 collections:
-  classes:
+  coursework:
     output: true
-    permalink: /notes/:slug
+    permalink: /coursework/:slug
   # semesters:
     # output: false
   ece532:
     output: true
-    permalink: /notes/ece532/:slug
+    permalink: /coursework/ece532/:slug
   bmi776:
     output: true
-    permalink: /notes/bmi776/:slug
+    permalink: /coursework/bmi776/:slug
 
 semesters:
   - Spring 2019

@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<article class="post">
+
+  <header class="post-header">
+      <h1 class="post-title">{{ page.title | escape }}</h1>
+      <p class="post-meta">{{ page.number | escape }} &mdash; {{page.semester}}</p>
+  </header>
+
+  <h2>Lecture notes</h2>
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+</article>
