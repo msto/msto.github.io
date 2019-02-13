@@ -154,10 +154,11 @@ distributed - since the density is greater on the tails, you're more likely to
 observe larger errors, and the error terms are more dispersed. 
 
 Tying back in with our discussion of L1 regularization, we can also think of
-LAD as encouraging sparsity among our _errors_ (as opposed to our residuals in
-Lasso). Essentially, it's okay if one outlier has a large error as long as the
-majority of our points are well fit. Similarly, OLS can be thought of as like
-ridge regression - it encourages all our residuals to be small.
+LAD as encouraging sparsity among our _errors_ (as opposed to among our
+regression coefficients in Lasso). Essentially, it's okay if one outlier has a
+large error as long as the majority of our points are well fit. Similarly, OLS
+can be thought of as like ridge regression - it encourages all our residuals to
+be small.
 
 Moral: LAD gives us a more robust fit.
 
