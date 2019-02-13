@@ -161,4 +161,194 @@ ridge regression - it encourages all our residuals to be small.
 
 Moral: LAD gives us a more robust fit.
 
+Our final comment will be that $$\hat{\beta}_{LAD}$$ has no closed-form
+solution, but solving for $$\beta$$ involves solving a convex function, so it
+is tractable to strategies such as gradient descent, which we'll discuss next
+lecture. (Proof: $$y-X\beta$$ is a linear operation, so it is convex, and the
+L1-norm, or absolute value, is convex, and any composition of convex functions
+is convex.)
 
+# Other loss functions
+
+We have defined functions $$f$$ of our linear regression residuals that we have
+minimized to obtain regression estimates. So far, we have chosen $$f(u) =
+u^2$$, in least squares, and $$f(u) = \card{u}$$, in LAD. Other choices include
+the [Tukey biweight function](http://mathworld.wolfram.com/TukeysBiweight.html)
+and the [Huber loss function](https://en.wikipedia.org/wiki/Huber_loss), which
+is piecewise quadratic close to 0 and linear beyond a certain threshold.
+
+Each loss function has a generative model interpretation
+
+$$
+p_{\varepsilon}(u) \approx \exp(- f(u))
+$$
+
+Tukey has an extremely heavy tailed pdf, but it is not convex and can be
+inefficient to optimize. OLS, LAD, and Huber are all convex.
+
+The relationship between the loss functions and their respective probability
+density functions can be intuited as "if the loss function grows fast, then the
+pdf shrinks fast".
+
+In the homework you will use the matlab `robustfit` package to compare
+performance with different losses and convince yourself that OLS is not the
+right strategy when we have outliers in our data.
+
+# Logistic regression
+
+We now move on to logistic regression. The reference for this material is
+chapter 4 in either Bishop or Elements of Statistical Learning.
+
+We have a new motivating context. Suppose we have data $$\{(X_i,
+y_i)\}_{i=1}^n$$, where $$y_i$$ is categorical. For now, we'll restrict
+ourselves to the simple case where $$y_i$$ is an indicator variable, i.e.,
+$$y_i \in \{0, 1\}$$.
+
+Applying linear regression doesn't make much sense here. In linear regression,
+we are intuitively saying that if we increase the magnitude of some components
+of $$X_i$$, we will observe an increase in $$y_i$$. Here, however, $$y_i$$
+can't "grow" - it is either 0 or 1. Instead, we'd like to model the belief that
+if we increase the magnitude of some components of $$X_i$$, $$y_i$$ is more
+likely to be 1. (For example, whether BMI or blood cholesterol levels are
+associated with the presence of heart disease.)
+
+# Generative model of logistic regression
+
+This time, we will start with the generative model, since logistic regression
+doesn't have a nice algebraic or geometric perspective like OLS did (though we
+will see a geometric view later). It might seem like it's coming from out of
+nowhere at first, but we'll take it as given and see where it came from later.
+
+We will assume that the $$y_i$$ are generated probabilistically from the
+$$X_i$$ and a parameter $$\beta$$, with
+
+$$
+P(y_i = 1) = \frac{1}{1 + \exp(-X_i' \beta)}
+$$
+
+Note that since there are only two possible outcomes for $$y_i$$, this implies
+
+$$
+P(y_i = 0) = 1 - P(y_i=1) = \frac{\exp(-X_i'\beta)}{1 + \exp(-X_i' \beta)}
+$$
+
+The logistic function is defined as:
+
+$$
+f(u) = \frac{1}{1 + e^{-u}}
+$$
+
+and has a sigmoidal shape. By choosing this function to model our
+probabilities, we are saying that larger values of $$X_i' \beta$$ are
+associated with more extreme probabilities.
+
+# MLE of logistic regression
+
+From the generative model, we again want to find the maximum likelihood
+estimate to obtain a formula for $$\hat{\beta}$$ and fit our model. We won't be
+able to find a closed form solution, but we can show that the problem is
+convex.
+
+$$
+\begin{align*}
+L_{\beta}(X, y) &= \prod L_{\beta}(X,y) \\
+                &= \prod \left( \frac{1}{1 + \exp(-X_i' \beta)}\right)^{y_i} \left(\frac{\exp(-X_i'\beta)}{1 + \exp(-X_i' \beta)}\right)^{(1-y_i)}
+\end{align*}
+$$
+
+Note that we no longer have our Gaussian pdf since we're not assuming Gaussian
+error terms. What are we saying here instead? The left quantity is the
+probability that $$y_i$$ is 1, and the right, that $$y_i$$ is 0. Since $$y_i$$
+is an indicator variable, the exponents $$y_i$$ and $$1 - y_i$$ control which
+probability is "on" for each observation.
+
+Maximizing this likelihood is equivalent to maximizing the log-likelihood:
+
+$$
+\begin{align*}
+\log \L_{\beta} (X,y) &= \sum \left[ y_i \log \left( \frac{1}{1 + \exp(-X_i' \beta)} \right) + (1 - y_i) \log \left( \frac{\exp(-X_i'\beta)}{1 + \exp(-X_i' \beta)} \right) \right] \\
+  &= \sum \left[ -y_i \log (1 + \exp(-X_i' \beta)) + (1 - y_i)(-X_i' \beta) - (1- y_i) \log (1 + \exp(-X_i' \beta)) \right] \\
+  &= \sum \left[ (1-y_i)(-X_i' \beta) - \log (1 + \exp(-X_i' \beta)) \right] && \text{ $y_i$ terms cancel}
+  &= \sum \left[ (y_i- 1)(X_i' \beta) - \log (1 + \exp(-X_i' \beta)) \right] 
+\end{align*}
+$$
+
+Maxmizing this function is equivalent to minimizing its negative,
+
+$$
+f(\beta) = \sum \left[ (1-y_i)(X_i' \beta) + \log (1 + \exp(-X_i' \beta)) \right]
+$$
+
+Remember that this doesn't have a closed-form solution, so we're instead trying
+to show that $$f$$ is convex. Recall from calculus that we show a function is
+convex by taking a double derivative (i.e., a gradient then a Hessian).
+
+First let's take the gradient:
+
+$$
+\begin{align*}
+\nabla_{\beta} f(\beta) &= \sum \left[ (1-y_i)X_i + \frac{1}{1 + \exp(-X_i' \beta)}\exp(-X_i'\beta)(-X_i) \right] \\
+  &= \sum \left[ (1-y_i)X_i - \frac{1}{1 + \exp(X_i' \beta)}(X_i) \right]
+\end{align*}
+$$
+
+And our Hessian is thus:
+
+$$
+\begin{align*}
+\nabla_{\beta}^{2} f(\beta) &= \sum \frac{1}{(\exp(X_i'\beta) + 1)^2}\exp(X_i' \beta) X_i X_i' \\
+  &= \sum \frac{\exp(X_i' \beta)}{(\exp(X_i'\beta) + 1)^2} X_i X_i' \\
+\end{align*}
+$$
+
+Note that the first $$X_i$$ in the multiplication is from the chain rule, and
+the second is a carry-over from the gradient. We've used a common trick to
+transpose the second $$X_i$$ so we get the matrix that's expected in the
+Hessian.
+
+You may remember that a function $$f$$ is convex if its Hessian $$\nabla^2 f$$
+is positive semi-definite. We have remarked upon positive semi-definiteness in
+class, and a notable characteristic is that the Hessian (or any matrix) is
+positive semi-definite if the following holds:
+
+$$
+v' (\nabla^2 f) v \ge 0 ~\forall~ v \in \R^p
+$$
+
+We can verify this:
+
+$$
+\begin{align*}
+v' (\nabla^2 f) v &= v' \left[ \sum \frac{\exp(X_i' \beta)}{(\exp(X_i'\beta) + 1)^2} X_i X_i' \right] v \\
+  &= \sum \frac{\exp(X_i' \beta)}{(\exp(X_i'\beta) + 1)^2} v' X_i X_i' v \\ 
+  &= \sum \frac{\exp(X_i' \beta)}{(\exp(X_i'\beta) + 1)^2} (X_i' v)^2 \\ 
+\end{align*}
+$$
+
+Note that $$X_i' v$$ is a scalar, and its square is always non-negative, and
+the fraction is an exponential (always positive) over a square of an
+exponential (always positive), so this product is always non-negative and our
+Hessian is positive semi-definite.
+
+We conclude that $$f(\beta)$$ is convex. It is therefore "easy" to find the
+estimate $$\hat{\beta}_{logistic} = \argmin\limits_{\beta} f(\beta)$$. How? By
+applying gradient descent, which we will discuss in detail in the next lecture.
+
+# Gradient descent
+
+We would like an all-purpose solver for convex optimization problems (not just
+logistic regression). Gradient descent is such a tool.
+
+The idea is to start at some point $$\beta^{(0)}$$ and iteratively obtain
+updates $$\beta^{(1)}, \beta^{(2)}, \cdots, \beta^{(t)}$$ by going in the
+direction of steepest descent.
+
+The formula for the gradient descent update is:
+
+$$
+\beta^{(t)} = \beta^{(t-1)} - \eta \nabla f(\beta^{(t-1)})
+$$
+
+where $$\eta$$ is a defined step size. Recall that the gradient of the function
+points in the direction of steepest increase, so we choose to go in the
+opposite direction.
