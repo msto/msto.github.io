@@ -8,6 +8,9 @@ permalink: /coursework/
 
 Lecture notes and projects from courses I've taken.
 
+Any inaccuracies or incompleteness in scribe notes should be attributed to me
+and not considered reflective of the lecturer.
+
 {% for semester in site.semesters %}
 # {{semester}}
 {% for course in site.coursework %}
