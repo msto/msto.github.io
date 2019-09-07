@@ -40,8 +40,12 @@ collections:
   bmi776:
     output: true
     permalink: /coursework/bmi776/:slug
+  cs787:
+    output: true
+    permalink: /coursework/cs787/:slug
 
 semesters:
+  - Fall 2019
   - Spring 2019
 
 # Exclude from processing.
