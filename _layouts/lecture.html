@@ -16,9 +16,45 @@ layout: default
       {%- endif -%}</p>
   </header>
 
+  <!-- next/prev links -->
+  {% if page.collection %}
+      {% assign links = site[page.collection]  %}
+  {% endif %}
+  
+  {% for link in links %}
+      {% if link.title == page.title %}
+          {% unless forloop.first %}
+              {% assign prev = tmpprev %}
+          {% endunless %}
+          {% unless forloop.last %}
+              {% assign next = links[forloop.index] %}
+          {% endunless %}
+      {% endif %}
+      {% assign tmpprev = link %}
+  {% endfor %}
+
+  {% if next %}
+  <div style="float: right; clear: right;"><a href="{{next.url}}">Next (Lecture {{ next.lecture }}) ></a></div>
+  {% endif %}
+  {% if prev %}
+  <p><a href="{{ prev.url }}">&lt; Previous (Lecture {{prev.lecture}})</a></p>
+  {% endif %}
+  
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
+
+  <!-- <ul class="prevnext"> -->
+      <!-- <li>{% if prev %}<a href="{{ prev.url}}">&lt; Lecture {{prev.lecture}} &ndash; {{ prev.title }}</a>{% endif %}</li> -->
+      <!-- <li>{% if next %}<a href="{{ next.url}}">{{ next.title }} &gt;</a>{% endif %}</li> -->
+  <!-- </ul> -->
+
+  {% if next %}
+  <div style="float: right; clear: right;"><a href="{{next.url}}">Next (Lecture {{ next.lecture }}) ></a></div>
+  {% endif %}
+  {% if prev %}
+  <p><a href="{{ prev.url }}">&lt; Previous (Lecture {{prev.lecture}})</a></p>
+  {% endif %}
 
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
