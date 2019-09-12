@@ -109,3 +109,75 @@ P( \exists i : M_i \ge k) &\le \sum\limits_i P(M_i \ge k) \\
 $$
 
 So we have proven that the probability that any machine . [TODO: write a better statement about triviality here]
+
+However, if we apply a more powerful inequality, we can obtain a better bound
+and therefore a better understanding of the behavior of the problem.
+
+## Chebyshev's inequality
+
+Let $$X$$ be a random variable with mean $$\mu = \E[X]$$ and variance
+$$\sigma^2 = \E[(X - \mu)^2]$$. Then
+
+$$
+P( \card{X - \mu} \ge k \sigma) \le \frac{1}{k^2}
+$$
+
+Qualitatively, Markov's inequality bounds the value of a random variable with
+its expectation. A random variable is unlikely to take a value that is several
+multiples of its expectation. Chebyshev's inequality is more fine grained and
+places a tighter bound on the mean. [TODO: elaborate?]
+
+**Proof:**
+
+We can prove Chebyshev's inequality using Markov's inequality. Let us define a
+random variable $$z = (X - \mu)^2$$. Then we have
+    [TODO: write out and add proof]
+
+
+**Applying to find a bound:**
+
+In our context, this allows us to place a tighter bound on the maximum load of a machine:
+
+$$
+P(M_i \ge k) = P(\abs{M_i - 1} \ge k - 1)
+$$
+
+Note that the random variable $$M_i$$ is the sum of indicator variables
+$$y_{ji}$$, where $$y_{ji}=1$$ if job $$j$$ is assigned to machine $$i$$.
+
+$$
+M_i = \sum\limits_{j=1}^n y_{ji}
+$$
+
+Since the jobs are assigned randomly the variables $$y_{ji}$$ are independent,
+and we have
+
+$$
+\begin{align*}
+\Var[M_i] &= \sum \Var[y_{ij}] \\
+          &= n \Var[y_{11}] \\
+         &= n \left( \frac{1}{n} \left(1 - \frac{1}{n}\right)^2 + \left(1 - \frac{1}{n}\right)\left(0 - \frac{1}{n}\right)^2 \right) \\
+        &= 1 - \frac{1}{n} \\
+        < 1
+\end{align*}
+$$
+
+Since the variance is less than 1, we can bound $$\sigma$$ at 1 in Chebyshev's inequality and obtain
+
+$$
+P(\card{M_i - 1} \ge k - 1) \le \frac{1}{(k -1)^2}
+$$
+
+Applying the union bound again, we now have the new bound on our maximum load
+
+$$
+P(\exists i : M_i \ge k) \le \frac{n}{(k-1)^2}
+$$
+
+which is no longer a trivial bound! In fact, we can observe that for
+$$k=\O(\sqrt{n})$$, this probability is at most 0.01. [TODO: why?] which gives
+us a reasonable confidence that no machine should have more than $$\sqrt{n}$$
+jobs piling up.
+
+But 
+
