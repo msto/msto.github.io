@@ -1,6 +1,6 @@
 ---
 layout: lecture
-title: Course overview and hashing
+title: "Hashing: Universal hash family"
 lecture: 1
 course: CS 787
 date: 2019-09-06

@@ -1,6 +1,6 @@
 ---
 layout: lecture
-title: Hashing
+title: "Hashing: Count-distinct and Flajolet-Martin"
 lecture: 3
 course: CS 787
 date: 2019-09-12
@@ -36,7 +36,8 @@ Last lecture we discussed three concentration inequalities:
 We saw that Chernoff's bound is the most powerful, and will be applying it
 again today. To review, Chernoff's bound states the following:
 
-Let $$X_i$$ be independent Bernoulli random variables, i.e. $$X_i \in \{0, 1\}$$, with $$\E[\sum X_i] = \mu$$. Then
+Let $$X_i$$ be independent Bernoulli random variables, i.e. $$X_i \in \{0,
+1\}$$, with $$\E[\sum X_i] = \mu$$. Then
 
 $$
 P(\sum X_i \ge (1 + \delta) \mu) \le \exp\left(\frac{-\delta^2 \mu}{2 + \delta}\right)

@@ -1,6 +1,6 @@
 ---
 layout: lecture
-title: Hashing
+title: "Hashing: Load balancing and concentration bounds"
 lecture: 2
 course: CS 787
 date: 2019-09-10
