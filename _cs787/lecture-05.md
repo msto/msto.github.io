@@ -35,7 +35,15 @@ We begin by reviewing the max-flow problem, which takes as input the following:
 The goal is to send the maximum possible flow from $$s \to t$$ without
 violating the capacity constraints.
 
-We formally define the flow as a function $$f(u, v): E \mapsto \R^{+}$$, and the max-flow problem as
+We formally define the flow as a function $$f(u, v): E \mapsto \R^{+}$$, and
+the max-flow problem as
 
 $$
-\max\limits_{f} \sum(
+\begin{align*}
+\max\limits_{f} \quad & \sum\limits_{v \in V} f(s, v) - \sum\limits_{v \in V} f(v, s) \\
+\textrm{s.t.} \quad & \sum\limits_{v \in V} f(u, v) - \sum\limits_{v \in V} f(u, v) = 0 \quad \forall \quad u \ne s, t \\
+ \quad & 0 \le f(u,v) \le c(u, v)
+\end{align*}
+$$
+
+The first constraint we have is the _flow conservation property_, which requires the flow entering a node to be the same as the flow leaving a node. The second is the _capacity_ constraint, which requires the flow along an edge 
