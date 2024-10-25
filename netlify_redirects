@@ -4,5 +4,5 @@ permalink: /_redirects
 ---
 
 /linkedin           https://www.linkedin.com/in/matthew-stone-b300b327/
-/twitter            https://twitter.com/m_sto
 /github             https://github.com/msto/
+/bsky               https://bsky.app/profile/msto.bsky.social

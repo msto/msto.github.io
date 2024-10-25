@@ -18,8 +18,7 @@ email: ""
 description: > # this means to ignore newlines until "baseurl:"
     Under construction
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "mattstone.us" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: m_sto
+url: "msto.dev" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  msto
 
 # Build settings
