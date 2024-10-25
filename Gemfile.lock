@@ -174,7 +174,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll (~> 4.3.4)
   jekyll-compose
-  jekyll-feed (~> 0.6)
+  jekyll-feed (~> 0.17)
   minima (~> 2.5.2)
   tzinfo-data
 
