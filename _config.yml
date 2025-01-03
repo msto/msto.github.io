@@ -20,6 +20,7 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "msto.dev" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  msto
+linkedin_username: mattstonebio
 
 # Build settings
 markdown: kramdown
@@ -27,25 +28,6 @@ theme: minima
 plugins:
   - jekyll-feed
 
-collections:
-  coursework:
-    output: true
-    permalink: /coursework/:slug
-  # semesters:
-    # output: false
-  ece532:
-    output: true
-    permalink: /coursework/ece532/:slug
-  bmi776:
-    output: true
-    permalink: /coursework/bmi776/:slug
-  cs787:
-    output: true
-    permalink: /coursework/cs787/:slug
-
-semesters:
-  - Fall 2019
-  - Spring 2019
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
