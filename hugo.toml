@@ -12,7 +12,7 @@ disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 
 [permalinks]
-  blog = "/:slug/"
+  blog = "/blog/:slug/"
 
 [params]
   description = "Matthew Stone — Principal Bioinformatics Scientist at Fulcrum Genomics."
@@ -29,10 +29,10 @@ ignoreErrors = ["error-disable-taxonomy"]
 
 # Navigation menu. Home is reachable via the site title in the header.
 # Uncomment each entry as the corresponding section is added:
-# [[menu.main]]
-#   name = "Blog"
-#   url = "/blog/"
-#   weight = 1
+[[menu.main]]
+  name = "Blog"
+  url = "/blog/"
+  weight = 1
 # [[menu.main]]
 #   name = "Projects"
 #   url = "/projects/"
