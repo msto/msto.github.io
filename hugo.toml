@@ -1,0 +1,44 @@
+baseURL = "https://msto.dev/"
+theme = "hugo-bearblog"
+
+title = "Matthew Stone"
+author = "Matthew Stone"
+languageCode = "en-us"
+
+enableRobotsTXT = true
+
+# Generate "Bearblog"-style URLs. Forward-compatible for when a /blog section is added.
+disableKinds = ["taxonomy"]
+ignoreErrors = ["error-disable-taxonomy"]
+
+[permalinks]
+  blog = "/blog/:slug/"
+
+[params]
+  description = "Matthew Stone — Principal Bioinformatics Scientist at Fulcrum Genomics."
+  dateFormat = "January 2, 2006"
+  # Uncomment to remove the theme's "Made with Bear" footer line:
+  # hideMadeWithLine = true
+
+# Code-block highlighting (used once posts are added).
+[markup]
+  [markup.highlight]
+    style = "friendly"
+    lineNos = true
+    lineNumbersInTable = false
+    codeFences = true
+
+# Navigation menu. Home is reachable via the site title in the header.
+# Uncomment each entry as the corresponding section is added:
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+[[menu.main]]
+  name = "Blog"
+  url = "/blog/"
+  weight = 2
+# [[menu.main]]
+#   name = "Projects"
+#   url = "/projects/"
+#   weight = 2

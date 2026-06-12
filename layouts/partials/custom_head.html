@@ -1,0 +1,56 @@
+<link rel="preload" href="/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  /* Self-hosted fonts — no third-party dependency. */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('/fonts/inter-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Newsreader';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('/fonts/newsreader-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Newsreader';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/newsreader-latin-italic.woff2') format('woff2');
+  }
+
+  :root {
+    --font-main: 'Inter', system-ui, sans-serif;        /* titles + headings */
+    --font-secondary: 'Newsreader', Georgia, 'Times New Roman', serif; /* body */
+    --font-scale: 1.0625em;                              /* slight bump for readability (~17px) */
+  }
+
+  /* Post date: metadata label in the title font, small + muted (overrides Bear's monospace). */
+  time {
+    font-family: var(--font-main);
+    font-size: 0.85em;
+    opacity: 0.65;
+  }
+
+  /* Centered italic epigraph — a quote under a section header. */
+  .epigraph {
+    border-left: none;
+    padding-left: 0;
+    text-align: center;
+    font-style: italic;
+    max-width: 40ch;
+    margin: 1.5rem auto;
+  }
+  .epigraph cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 0.4rem;
+  }
+</style>

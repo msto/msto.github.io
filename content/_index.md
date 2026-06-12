@@ -1,8 +1,5 @@
----
-layout: page
-title: About
-permalink: /about/
----
++++
++++
 
 I am a Principal Bioinformatics Scientist at [Fulcrum Genomics](https://fulcrumgenomics.com/), where I build bioinformatics tools and pipelines to support biotech clients large and small. 
 
@@ -21,7 +18,6 @@ genomic structural variants from whole-genome sequencing and [applied it to a
 I completed my master's degree in biomedical data science at the University of Wisconsin-Madison, where I completed rotation projects with [Dr. Sushmita Roy](https://roylab.discovery.wisc.edu/) and [Dr. Colin Dewey](https://www.biostat.wisc.edu/~cdewey/), and was funded by the [Computation and Informatics in Biology and Medicine](https://cibm.wisc.edu/) program.
 
 I received my undergraduate degree in computer science from Dartmouth College.
-
 
 ## Where you can find me
 

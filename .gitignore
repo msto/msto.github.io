@@ -1,7 +1,15 @@
-_site
-.sass-cache
-.jekyll-metadata
-.*.swp
+# Hugo
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Jekyll (legacy, no longer built)
+_site/
+.jekyll-cache/
 
 # Local Netlify folder
 .netlify
+
+# Editor / OS
+.*.swp
+.DS_Store
